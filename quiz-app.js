@@ -23,26 +23,30 @@ function playSound(type) {
 
 function showQuestion(idx) {
   const q = QUIZ_CONFIG.questions[idx];
-  quizContainer.innerHTML = '';
-  if (q.type === 'yesno') {
-    quizContainer.innerHTML = `
-      <div class="question">${q.text}</div>
-      <button class="btn yes" id="yesBtn">Yes</button>
-      <button class="btn no" id="noBtn">No</button>
-      <div id="animation"></div>
-    `;
-    document.getElementById('yesBtn').onclick = () => handleYes(idx);
-    document.getElementById('noBtn').onclick = (e) => handleNo(e);
-  } else if (q.type === 'text') {
-    quizContainer.innerHTML = `
-      <div class="question">${q.text}</div>
-      <textarea id="freeText" rows="4" style="width:90%;font-size:1.1rem;font-family:'Poppins',Arial,sans-serif;"></textarea>
-      <br><button class="btn yes" id="submitBtn">Submit</button>
-      <div id="animation"></div>
-      <div id="status"></div>
-    `;
-    document.getElementById('submitBtn').onclick = () => handleSubmit();
-  }
+  quizContainer.style.transition = 'opacity 0.7s cubic-bezier(.6,-0.28,.74,.05)';
+  quizContainer.style.opacity = '0';
+  setTimeout(() => {
+    if (q.type === 'yesno') {
+      quizContainer.innerHTML = `
+        <div class="question">${q.text}</div>
+        <button class="btn yes" id="yesBtn">Yes</button>
+        <button class="btn no" id="noBtn">No</button>
+        <div id="animation"></div>
+      `;
+      document.getElementById('yesBtn').onclick = () => handleYes(idx);
+      document.getElementById('noBtn').onclick = (e) => handleNo(e);
+    } else if (q.type === 'text') {
+      quizContainer.innerHTML = `
+        <div class="question">${q.text}</div>
+        <textarea id="freeText" rows="4" class="styled-textarea"></textarea>
+        <br><button class="btn yes" id="submitBtn">Submit</button>
+        <div id="animation"></div>
+        <div id="status"></div>
+      `;
+      document.getElementById('submitBtn').onclick = () => handleSubmit();
+    }
+    quizContainer.style.opacity = '1';
+  }, 350);
 }
 
 function handleYes(idx) {
@@ -104,8 +108,17 @@ function showAnimation(type, btn) {
 }
 
 function showFinalBanner() {
-  quizContainer.innerHTML = `<div class='banner'>${QUIZ_CONFIG.messages.final}</div>`;
+  quizContainer.innerHTML = `<div class='banner'><a href="#" id="resetLink" style="color:inherit;text-decoration:underline;">${QUIZ_CONFIG.messages.final}</a></div>`;
   confettiBurst(quizContainer);
+  document.getElementById('resetLink').onclick = (e) => {
+    e.preventDefault();
+    resetQuiz();
+  };
+  setTimeout(resetQuiz, 60000);
+function resetQuiz() {
+  currentQuestion = 0;
+  showQuestion(currentQuestion);
+}
 }
 
 function toggleSound() {
