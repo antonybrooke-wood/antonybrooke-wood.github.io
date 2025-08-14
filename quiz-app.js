@@ -3,6 +3,19 @@
 
 const quizContainer = document.getElementById('quiz-container');
 let currentQuestion = 0;
+let usedNoEffects = [];
+const NO_EFFECTS = [
+  { key: 'explode', name: 'Explode into confetti' },
+  { key: 'fade', name: 'Fade away' },
+  { key: 'shrink', name: 'Shrink to a dot' },
+  { key: 'melt', name: 'Melt into a puddle' },
+  { key: 'hoverMove', name: 'Move away on hover' },
+  { key: 'spinFly', name: 'Spin and fly off screen' },
+  { key: 'bounceVanish', name: 'Bounce and vanish' },
+  { key: 'flipFall', name: 'Flip and fall off screen' },
+  { key: 'morphYes', name: 'Morph into Yes button' },
+  { key: 'arrowToYes', name: 'Morph into arrow pointing to Yes button' }
+];
 let soundEnabled = QUIZ_CONFIG.soundEnabled;
 
 // Preload sounds
@@ -34,7 +47,22 @@ function showQuestion(idx) {
         <div id="animation"></div>
       `;
       document.getElementById('yesBtn').onclick = () => handleYes(idx);
-      document.getElementById('noBtn').onclick = (e) => handleNo(e);
+      // Pick a unique effect for this run
+      let available = NO_EFFECTS.filter(e => !usedNoEffects.includes(e.key));
+      if (available.length === 0) usedNoEffects = [], available = NO_EFFECTS.slice();
+      let effectObj = available[Math.floor(Math.random() * available.length)];
+      usedNoEffects.push(effectObj.key);
+      setTimeout(() => {
+        triggerNoEffect(effectObj.key, document.getElementById('noBtn'));
+      }, 1500);
+      // Show effect name at bottom
+      let effectNameDiv = document.createElement('div');
+      effectNameDiv.style.marginTop = '2.5rem';
+      effectNameDiv.style.fontSize = '1.1rem';
+      effectNameDiv.style.color = 'var(--dark-purple)';
+      effectNameDiv.style.fontWeight = '500';
+      effectNameDiv.innerText = `No effect: ${effectObj.name}`;
+      quizContainer.appendChild(effectNameDiv);
     } else if (q.type === 'text') {
       quizContainer.innerHTML = `
         <div class="question">${q.text}</div>
@@ -47,6 +75,108 @@ function showQuestion(idx) {
     }
     quizContainer.style.opacity = '1';
   }, 350);
+// No button effects
+function triggerNoEffect(effect, btn) {
+  const yesBtn = document.getElementById('yesBtn');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.style.cursor = 'not-allowed';
+  switch (effect) {
+    case 'morphYes':
+      btn.innerHTML = 'Yes';
+      btn.className = 'btn yes';
+      btn.disabled = false;
+      btn.style.cursor = 'pointer';
+      btn.onclick = () => {
+        if (yesBtn) yesBtn.click();
+      };
+      break;
+    case 'arrowToYes':
+      btn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" style="vertical-align:middle;" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6l-6 6 6 6" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      btn.style.background = 'var(--dark-blue)';
+      btn.style.color = 'var(--white)';
+      btn.style.border = 'none';
+      btn.style.boxShadow = '';
+      btn.style.display = '';
+      btn.style.alignItems = '';
+      btn.style.justifyContent = '';
+      btn.style.padding = '';
+      btn.style.transition = '';
+      btn.style.transform = '';
+      break;
+    case 'explode':
+      btn.style.position = 'relative';
+      btn.style.transition = 'transform 0.3s';
+      setTimeout(() => {
+        btn.style.transform = 'scale(1.2)';
+        confettiBurst(btn.parentElement);
+        setTimeout(() => btn.style.display = 'none', 400);
+      }, 400);
+      break;
+    case 'fade':
+      btn.style.transition = 'opacity 0.7s';
+      setTimeout(() => btn.style.opacity = '0', 500);
+      setTimeout(() => btn.style.display = 'none', 1200);
+      break;
+    case 'move':
+      btn.style.position = 'absolute';
+      btn.style.left = '10%';
+      btn.style.top = '60%';
+      let moves = 0;
+      let moveInterval = setInterval(() => {
+        btn.style.left = (10 + Math.random()*80) + '%';
+        btn.style.top = (20 + Math.random()*60) + '%';
+        moves++;
+        if (moves > 8) { clearInterval(moveInterval); btn.style.display = 'none'; }
+      }, 180);
+      break;
+    case 'shrink':
+      btn.style.transition = 'transform 0.7s';
+      setTimeout(() => btn.style.transform = 'scale(0.1)', 400);
+      setTimeout(() => btn.style.display = 'none', 1200);
+      break;
+    case 'run':
+      btn.style.position = 'absolute';
+      btn.innerHTML = '🏃‍♂️ No';
+      btn.style.transition = 'left 1.2s cubic-bezier(.6,-0.28,.74,.05)';
+      setTimeout(() => btn.style.left = '120%', 400);
+      setTimeout(() => btn.style.display = 'none', 1400);
+      break;
+    case 'melt':
+      btn.style.transition = 'transform 1.2s, opacity 1.2s';
+      setTimeout(() => {
+        btn.style.transform = 'scaleY(0.2)';
+        btn.style.opacity = '0.3';
+      }, 400);
+      setTimeout(() => btn.style.display = 'none', 1200);
+      break;
+    case 'hoverMove':
+      btn.style.position = 'absolute';
+      btn.onmouseover = () => {
+        btn.style.left = (10 + Math.random()*80) + '%';
+        btn.style.top = (20 + Math.random()*60) + '%';
+      };
+      break;
+    case 'spinFly':
+      btn.style.transition = 'transform 1.2s';
+      setTimeout(() => btn.style.transform = 'rotate(720deg) translateY(-120px)', 400);
+      setTimeout(() => btn.style.display = 'none', 1200);
+      break;
+    case 'bounceVanish':
+      btn.style.transition = 'transform 0.7s';
+      setTimeout(() => btn.style.transform = 'translateY(-40px) scale(1.2)', 300);
+      setTimeout(() => btn.style.transform = 'translateY(60px) scale(0.1)', 900);
+      setTimeout(() => btn.style.display = 'none', 1400);
+      break;
+    case 'flipFall':
+      btn.style.transition = 'transform 1.2s';
+      setTimeout(() => btn.style.transform = 'rotateX(180deg) translateY(120px)', 400);
+      setTimeout(() => btn.style.display = 'none', 1200);
+      break;
+    default:
+      btn.style.display = 'none';
+  }
+}
 }
 
 function handleYes(idx) {
@@ -93,13 +223,15 @@ function nextQuestion() {
 
 function showAnimation(type, btn) {
   const anims = QUIZ_CONFIG.animations[type];
-  const anim = anims[Math.floor(Math.random() * anims.length)];
+  // Only show one animation for Yes, and remove yesOverlay
+  let filteredAnims = type === 'yes' ? anims.filter(a => a !== 'yesOverlay') : anims;
+  const anim = filteredAnims[Math.floor(Math.random() * filteredAnims.length)];
   const animDiv = document.getElementById('animation');
   animDiv.innerHTML = '';
   if (type === 'yes') {
     if (anim === 'confetti') confettiBurst(animDiv);
     else if (anim === 'fireworks') fireworks(animDiv);
-    else if (anim === 'yesOverlay') yesOverlay(animDiv);
+    // yesOverlay removed
   } else if (type === 'no') {
     if (anim === 'dodge' && btn) dodgeButton(btn);
     else if (anim === 'shake' && btn) shakeButton(btn);
@@ -108,7 +240,7 @@ function showAnimation(type, btn) {
 }
 
 function showFinalBanner() {
-  quizContainer.innerHTML = `<div class='banner'><a href="#" id="resetLink" style="color:inherit;text-decoration:underline;">${QUIZ_CONFIG.messages.final}</a></div>`;
+  quizContainer.innerHTML = `<div class='banner'><a href="#" id="resetLink" style="color:inherit;text-decoration:none;">${QUIZ_CONFIG.messages.final}</a></div>`;
   confettiBurst(quizContainer);
   document.getElementById('resetLink').onclick = (e) => {
     e.preventDefault();
@@ -175,11 +307,7 @@ function fireworks(container) {
   }
 }
 function yesOverlay(container) {
-  const ov = document.createElement('div');
-  ov.className = 'celebrate';
-  ov.innerText = 'YES!';
-  container.appendChild(ov);
-  setTimeout(() => ov.remove(), 1200);
+  // Removed YES! overlay effect
 }
 function dodgeButton(btn) {
   btn.style.position = 'relative';
@@ -208,8 +336,20 @@ quizContainer.addEventListener('keydown', function(e) {
   }
 });
 
-// Start quiz
-showQuestion(currentQuestion);
+// Initial overlay
+function showOverlay() {
+  quizContainer.innerHTML = `
+    <div style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(245,245,245,0.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--dark-purple);margin-bottom:2rem;">Welcome to the Simpology Conference Quiz!</div>
+      <button id="beginQuizBtn" class="btn yes" style="font-size:1.3rem;">Begin the quiz!</button>
+    </div>
+  `;
+  document.getElementById('beginQuizBtn').onclick = () => {
+    showQuestion(currentQuestion);
+  };
+}
+
+showOverlay();
 
 // Expose sound toggle for inline event
 window.toggleSound = toggleSound;
