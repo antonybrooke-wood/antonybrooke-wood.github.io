@@ -9,6 +9,42 @@
   <link rel="stylesheet" href="materials/Font_Download_Here/Poppins-Font-Family/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="materials/Font_Download_Here/Poppins-Font-Family/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <style>
+    /* Like Click Animation */
+    .like-anim {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 20;
+      animation: like-burst 0.7s forwards;
+    }
+    @keyframes like-burst {
+      0% { opacity: 0; transform: scale(0.5) translate(-50%, -50%); }
+      40% { opacity: 1; transform: scale(1.2) translate(-50%, -50%); }
+      100% { opacity: 0; transform: scale(1.8) translate(-50%, -50%); }
+    }
+    /* Bubbly Button Animation */
+    .bubbly-anim {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 20;
+    }
+    .bubbly-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--pink);
+      opacity: 0.7;
+      animation: bubbly-pop 0.7s forwards;
+    }
+    @keyframes bubbly-pop {
+      0% { transform: scale(0.2); opacity: 0.7; }
+      60% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
     :root {
       --pink: #E50F53;
       --white: #FFFFFF;

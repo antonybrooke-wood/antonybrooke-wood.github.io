@@ -231,12 +231,35 @@ function showAnimation(type, btn) {
   if (type === 'yes') {
     if (anim === 'confetti') confettiBurst(animDiv);
     else if (anim === 'fireworks') fireworks(animDiv);
+    else if (anim === 'likeClick') likeClickAnim(animDiv);
+    else if (anim === 'bubblyButton') bubblyButtonAnim(animDiv);
     // yesOverlay removed
   } else if (type === 'no') {
     if (anim === 'dodge' && btn) dodgeButton(btn);
     else if (anim === 'shake' && btn) shakeButton(btn);
     else if (anim === 'flashRed' && btn) flashRed(btn);
   }
+// Like Click Animation
+function likeClickAnim(container) {
+  const heart = document.createElement('div');
+  heart.className = 'like-anim';
+  heart.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="var(--pink)" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+  container.appendChild(heart);
+  setTimeout(() => heart.remove(), 700);
+}
+
+// Bubbly Button Animation
+function bubblyButtonAnim(container) {
+  for (let i = 0; i < 6; i++) {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubbly-anim bubbly-circle';
+    bubble.style.width = bubble.style.height = (18 + Math.random()*16) + 'px';
+    bubble.style.left = (50 + Math.random()*30-15) + '%';
+    bubble.style.top = (50 + Math.random()*30-15) + '%';
+    container.appendChild(bubble);
+    setTimeout(() => bubble.remove(), 700);
+  }
+}
 }
 
 function showFinalBanner() {

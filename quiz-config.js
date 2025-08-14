@@ -36,7 +36,7 @@ const QUIZ_CONFIG = {
     error: ["assets/sounds/error.mp3"]
   },
   animations: {
-    yes: ["confetti", "fireworks", "yesOverlay"],
+    yes: ["confetti", "fireworks", "likeClick", "bubblyButton"],
     no: ["dodge", "shake", "flashRed"],
     final: ["banner", "confetti"]
   }
