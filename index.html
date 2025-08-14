@@ -5,10 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simpology Conference Quiz</title>
   <!-- Poppins Font -->
-  <link rel="stylesheet" href="materials/Font_Download_Here/Poppins-Font-Family/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="materials/Font_Download_Here/Poppins-Font-Family/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="materials/Font_Download_Here/Poppins-Font-Family/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <style>
+    @font-face {
+      font-family: 'Poppins';
+      src: url('materials/Font_Download_Here/Poppins-Font-Family/Poppins-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Poppins';
+      src: url('materials/Font_Download_Here/Poppins-Font-Family/Poppins-Light.ttf') format('truetype');
+      font-weight: 300;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Poppins';
+      src: url('materials/Font_Download_Here/Poppins-Font-Family/Poppins-SemiBold.ttf') format('truetype');
+      font-weight: 600;
+      font-style: normal;
+    }
+    
     /* Like Click Animation */
     .like-anim {
       position: absolute;
@@ -121,6 +137,15 @@
       color: var(--white);
       box-shadow: 0 2px 8px rgba(229,15,83,0.12);
       transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
     }
     .btn:active {
       transform: scale(0.96);
