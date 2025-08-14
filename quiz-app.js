@@ -194,7 +194,7 @@ function showAnimation(type, btn, specificEffect) {
 function likeClickAnim(container) {
   const heart = document.createElement('div');
   heart.className = 'like-anim';
-  heart.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="var(--pink)" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+  heart.innerHTML = '<svg width="80" height="80" viewBox="0 0 24 24" fill="var(--pink)" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
   container.appendChild(heart);
   setTimeout(() => heart.remove(), 700);
 }
@@ -203,7 +203,7 @@ function bubblyButtonAnim(container) {
   for (let i = 0; i < 6; i++) {
     const bubble = document.createElement('div');
     bubble.className = 'bubbly-anim bubbly-circle';
-    bubble.style.width = bubble.style.height = (18 + Math.random()*16) + 'px';
+    bubble.style.width = bubble.style.height = (30 + Math.random()*25) + 'px';
     bubble.style.left = (50 + Math.random()*30-15) + '%';
     bubble.style.top = (50 + Math.random()*30-15) + '%';
     container.appendChild(bubble);
@@ -246,8 +246,8 @@ function confettiBurst(container) {
   for (let i = 0; i < 24; i++) {
     const conf = document.createElement('div');
     conf.style.position = 'absolute';
-    conf.style.width = '12px';
-    conf.style.height = '12px';
+    conf.style.width = '20px';
+    conf.style.height = '20px';
     conf.style.borderRadius = '50%';
     conf.style.background = [
       'var(--pink)', 'var(--dark-purple)', 'var(--dark-blue)', 'var(--light-purple)', 'var(--light-blue)'
@@ -255,7 +255,7 @@ function confettiBurst(container) {
     conf.style.left = (50 + Math.random()*40-20) + '%';
     conf.style.top = (30 + Math.random()*40-20) + '%';
     conf.style.opacity = '0.8';
-    conf.style.transform = `scale(${0.7+Math.random()*0.6})`;
+    conf.style.transform = `scale(${1.2+Math.random()*1.0})`;
     conf.style.transition = 'all 1.2s cubic-bezier(.6,-0.28,.74,.05)';
     container.appendChild(conf);
     setTimeout(() => {
@@ -269,14 +269,14 @@ function fireworks(container) {
   for (let i = 0; i < 12; i++) {
     const fw = document.createElement('div');
     fw.style.position = 'absolute';
-    fw.style.width = '6px';
-    fw.style.height = '32px';
+    fw.style.width = '10px';
+    fw.style.height = '50px';
     fw.style.background = [
       'var(--pink)', 'var(--dark-purple)', 'var(--dark-blue)', 'var(--light-purple)', 'var(--light-blue)'
     ][Math.floor(Math.random()*5)];
     fw.style.left = '50%';
     fw.style.top = '50%';
-    fw.style.transform = `rotate(${i*30}deg) scale(0.7)`;
+    fw.style.transform = `rotate(${i*30}deg) scale(1.2)`;
     fw.style.opacity = '0.7';
     fw.style.transition = 'all 1.2s cubic-bezier(.6,-0.28,.74,.05)';
     container.appendChild(fw);

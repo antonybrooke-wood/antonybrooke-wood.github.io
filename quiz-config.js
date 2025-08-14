@@ -2,7 +2,7 @@
 const QUIZ_CONFIG = {
   scriptUrl: "https://script.google.com/macros/s/AKfycbwedDWERxHg6cqxH1Z58oDWLFwNLP1uwXpfbxmM6iREDq9lJiOlmmYrIowYTvJzbi0a/exec", // Replace with your actual endpoint
   soundEnabled: true,
-  showEffectText: true, // Toggle to show/hide effect text display
+  showEffectText: false, // Toggle to show/hide effect text display
   questions: [
     {
       type: "yesno",
